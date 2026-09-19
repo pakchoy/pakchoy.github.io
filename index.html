@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Cards</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        padding: 8px 11px;
+        background: #f7f8f8;
+        font-family: Arial, Helvetica, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .cards {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+    }
+
+    .card {
+        position: relative;
+        height: 153px;
+        width: 100%;
+        border-radius: 21px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        cursor: pointer;
+        box-shadow:
+            0 12px 24px rgba(0, 0, 0, 0.17),
+            inset 0 1px 0 rgba(255,255,255,.12);
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 15px 28px rgba(0, 0, 0, 0.20),
+            inset 0 1px 0 rgba(255,255,255,.14);
+    }
+
+    .card:active {
+        transform: translateY(0);
+    }
+
+    /* Warna dibuat sedikit bergradasi seperti referensi */
+    .balance {
+        background:
+            radial-gradient(circle at 25% 15%, rgba(42,91,155,.28), transparent 35%),
+            linear-gradient(108deg, #103a78 0%, #0c2f69 48%, #09295e 100%);
+    }
+
+    .income {
+        background:
+            radial-gradient(circle at 25% 12%, rgba(54,151,137,.25), transparent 35%),
+            linear-gradient(108deg, #087a70 0%, #087066 52%, #05645d 100%);
+    }
+
+    .expense {
+        background:
+            radial-gradient(circle at 24% 10%, rgba(151,62,79,.22), transparent 36%),
+            linear-gradient(108deg, #8a293f 0%, #782339 52%, #641b31 100%);
+    }
+
+    .icon-box {
+        flex: 0 0 73px;
+        width: 73px;
+        height: 73px;
+        margin-left: 30px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            linear-gradient(145deg,
+                rgba(255,255,255,.15),
+                rgba(255,255,255,.035));
+        border: 1px solid rgba(255,255,255,.10);
+        box-shadow:
+            inset 0 1px 2px rgba(255,255,255,.07),
+            0 4px 10px rgba(0,0,0,.06);
+    }
+
+    .icon-box svg {
+        width: 46px;
+        height: 46px;
+        stroke: #f6d56b;
+        stroke-width: 2.3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,.12));
+    }
+
+    .content {
+        min-width: 0;
+        margin-left: 39px;
+        padding-right: 80px;
+    }
+
+    .label {
+        margin-bottom: 10px;
+        font-size: 17px;
+        line-height: 1;
+        font-weight: 400;
+        letter-spacing: .025em;
+        color: rgba(255,255,255,.84);
+        text-transform: uppercase;
+    }
+
+    .amount {
+        font-size: 40px;
+        line-height: .98;
+        font-weight: 500;
+        letter-spacing: .005em;
+        white-space: nowrap;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0,0,0,.12);
+    }
+
+    .arrow {
+        position: absolute;
+        right: 46px;
+        top: 50%;
+        width: 17px;
+        height: 30px;
+        transform: translateY(-50%);
+    }
+
+    .arrow svg {
+        width: 100%;
+        height: 100%;
+        stroke: rgba(255,255,255,.92);
+        stroke-width: 2.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 8px 10px;
+        }
+
+        .cards {
+            gap: 25px;
+        }
+
+        .card {
+            height: 153px;
+            border-radius: 20px;
+        }
+
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            flex-basis: 70px;
+            margin-left: 28px;
+        }
+
+        .content {
+            margin-left: 25px;
+            padding-right: 55px;
+        }
+
+        .label {
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .amount {
+            font-size: clamp(27px, 7vw, 37px);
+        }
+
+        .arrow {
+            right: 28px;
+        }
+    }
+
+    @media (max-width: 390px) {
+        .icon-box {
+            width: 62px;
+            height: 62px;
+            flex-basis: 62px;
+            margin-left: 20px;
+        }
+
+        .icon-box svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .content {
+            margin-left: 18px;
+        }
+
+        .label {
+            font-size: 12px;
+        }
+
+        .amount {
+            font-size: 27px;
+        }
+
+        .arrow {
+            right: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="cards">
+
+    <!-- SALDO UTAMA -->
+    <div class="card balance" onclick="cardClick('saldo')">
+        <div class="icon-box">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+                <rect x="7" y="12" width="34" height="24" rx="5"/>
+                <path d="M7 18h27c4 0 6 2 6 5v3H27c-4 0-7-3-7-6s3-6 7-6"/>
+                <circle cx="31" cy="25" r="2"/>
+                <path d="M12 36v3M36 36v3"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <div class="label">Saldo Utama</div>
+            <div class="amount">Rp 12,435,000</div>
+        </div>
+
+        <div class="arrow">
+            <svg viewBox="0 0 18 30" aria-hidden="true">
+                <path d="M3 3l10 12-10 12"/>
+            </svg>
+        </div>
+    </div>
+
+
+    <!-- TOTAL PEMASUKAN -->
+    <div class="card income" onclick="cardClick('pemasukan')">
+        <div class="icon-box">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M8 34l10-10 7 6 15-16"/>
+                <path d="M30 14h10v10"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <div class="label">Total Pemasukan</div>
+            <div class="amount">Rp 13,485,000</div>
+        </div>
+
+        <div class="arrow">
+            <svg viewBox="0 0 18 30" aria-hidden="true">
+                <path d="M3 3l10 12-10 12"/>
+            </svg>
+        </div>
+    </div>
+
+
+    <!-- TOTAL PENGELUARAN -->
+    <div class="card expense" onclick="cardClick('pengeluaran')">
+        <div class="icon-box">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 8v29"/>
+                <path d="M14 28l10 10 10-10"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <div class="label">Total Pengeluaran</div>
+            <div class="amount">Rp 1,050,000</div>
+        </div>
+
+        <div class="arrow">
+            <svg viewBox="0 0 18 30" aria-hidden="true">
+                <path d="M3 3l10 12-10 12"/>
+            </svg>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function cardClick(type) {
+    console.log("Card diklik:", type);
+}
+</script>
+
+</body>
+</html>
