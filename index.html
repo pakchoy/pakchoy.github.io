@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamer Hub - Dukung & Bergabung!</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins untuk kesan modern/gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk ikon brand dan UI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Pola background gelap bertekstur grid halus */
+            background-color: #0f172a; /* slate-900 */
+            background-image: 
+                linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+        
+        /* Kustomisasi scrollbar untuk tema gelap */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 fixed w-full top-0 z-30 transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <!-- Tombol Hamburger -->
+            <button id="open-drawer" class="text-slate-300 hover:text-white focus:outline-none p-2 rounded-lg hover:bg-slate-800 transition">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            
+            <!-- Logo / Nama di Navbar -->
+            <div class="font-bold text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+                NAMA_STREAMER
+            </div>
+            
+            <!-- Spacer untuk menyeimbangkan flexbox -->
+            <div class="w-8"></div>
+        </div>
+    </nav>
+
+    <!-- Overlay untuk Drawer -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
+
+    <!-- Drawer / Sidebar -->
+    <aside id="drawer" class="fixed inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-700 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+        <!-- Header Drawer -->
+        <div class="p-5 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
+            <h2 class="font-bold text-lg text-white">Menu</h2>
+            <button id="close-drawer" class="text-slate-400 hover:text-white transition p-1 rounded-md hover:bg-slate-700">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+        
+        <!-- Menu Items -->
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                        <i class="fas fa-crown w-6 text-yellow-400"></i>
+                        <span class="ml-3 font-medium">Top Donatur</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                        <i class="fas fa-calendar-alt w-6 text-blue-400"></i>
+                        <span class="ml-3 font-medium">Jadwal Stream</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                        <i class="fas fa-newspaper w-6 text-green-400"></i>
+                        <span class="ml-3 font-medium">Artikel / Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                        <i class="fas fa-info-circle w-6 text-indigo-400"></i>
+                        <span class="ml-3 font-medium">Info Setup PC</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                        <i class="fas fa-store w-6 text-pink-400"></i>
+                        <span class="ml-3 font-medium">Merchandise</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 pb-12 px-4 flex justify-center w-full">
+        <div class="max-w-lg w-full flex flex-col items-center">
+            
+            <!-- Profile Section -->
+            <div class="flex flex-col items-center text-center mb-10">
+                <div class="relative mb-4">
+                    <!-- Efek ring/cincin bercahaya di sekitar avatar -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-md opacity-70 animate-pulse"></div>
+                    <img src="https://ui-avatars.com/api/?name=St&background=1e293b&color=fff&size=150" alt="Avatar Streamer" class="relative w-28 h-28 rounded-full border-4 border-slate-800 shadow-xl object-cover">
+                </div>
+                
+                <h1 class="text-3xl font-extrabold text-white mb-2 flex items-center gap-2">
+                    NAMA_STREAMER <i class="fas fa-check-circle text-blue-500 text-lg"></i>
+                </h1>
+                <p class="text-slate-400 text-sm md:text-base px-4">
+                    Main game horor tiap malam 🎮 | Konten kreator | Terima kasih buat kalian yang udah support! 💜
+                </p>
+            </div>
+
+            <!-- Donasi Section -->
+            <div class="w-full mb-10">
+                <div class="flex items-center justify-center mb-5 gap-2">
+                    <div class="h-[1px] bg-slate-700 flex-grow"></div>
+                    <h2 class="text-slate-300 font-semibold uppercase tracking-widest text-xs px-3 text-center">Support & Donasi</h2>
+                    <div class="h-[1px] bg-slate-700 flex-grow"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Saweria -->
+                    <a href="#" target="_blank" class="group relative flex items-center justify-center p-4 rounded-xl bg-gradient-to-r from-[#e78b20] to-[#f4c82b] hover:from-[#f4c82b] hover:to-[#e78b20] text-white font-bold shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-orange-500/40 overflow-hidden">
+                        <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-in-out]"></div>
+                        <i class="fas fa-coins text-2xl absolute left-6 opacity-80"></i>
+                        <span class="text-lg">Donasi via Saweria</span>
+                    </a>
+
+                    <!-- Sociabuzz -->
+                    <a href="#" target="_blank" class="group relative flex items-center justify-center p-4 rounded-xl bg-gradient-to-r from-[#1DA1F2] to-[#0077b5] hover:from-[#0077b5] hover:to-[#1DA1F2] text-white font-bold shadow-lg shadow-blue-900/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/40 overflow-hidden">
+                        <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-in-out]"></div>
+                        <i class="fas fa-bolt text-2xl absolute left-6 opacity-80"></i>
+                        <span class="text-lg">Donasi via Sociabuzz</span>
+                    </a>
+
+                    <!-- Bagibagi -->
+                    <a href="#" target="_blank" class="group relative flex items-center justify-center p-4 rounded-xl bg-gradient-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#10B981] text-white font-bold shadow-lg shadow-emerald-900/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-500/40 overflow-hidden">
+                        <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-in-out]"></div>
+                        <i class="fas fa-gift text-2xl absolute left-6 opacity-80"></i>
+                        <span class="text-lg">Donasi via BagiBagi</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Socials & Community Section -->
+            <div class="w-full">
+                <div class="flex items-center justify-center mb-5 gap-2">
+                    <div class="h-[1px] bg-slate-700 flex-grow"></div>
+                    <h2 class="text-slate-300 font-semibold uppercase tracking-widest text-xs px-3 text-center">Komunitas</h2>
+                    <div class="h-[1px] bg-slate-700 flex-grow"></div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Discord -->
+                    <a href="#" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-800 border border-slate-700 hover:bg-[#5865F2] hover:border-[#5865F2] transition-colors duration-300 group">
+                        <i class="fab fa-discord text-3xl mb-2 text-[#5865F2] group-hover:text-white transition-colors"></i>
+                        <span class="text-sm font-semibold text-slate-300 group-hover:text-white">Discord</span>
+                    </a>
+
+                    <!-- TikTok -->
+                    <a href="#" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-800 border border-slate-700 hover:bg-black hover:border-slate-600 transition-colors duration-300 group">
+                        <i class="fab fa-tiktok text-3xl mb-2 text-white transition-colors"></i>
+                        <span class="text-sm font-semibold text-slate-300 group-hover:text-white">TikTok</span>
+                    </a>
+
+                    <!-- YouTube -->
+                    <a href="#" target="_blank" class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-800 border border-slate-700 hover:bg-[#FF0000] hover:border-[#FF0000] transition-colors duration-300 group">
+                        <i class="fab fa-youtube text-3xl mb-2 text-[#FF0000] group-hover:text-white transition-colors"></i>
+                        <span class="text-sm font-semibold text-slate-300 group-hover:text-white">YouTube</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Custom CSS Animation -->
+    <style>
+        @keyframes shine {
+            100% {
+                transform: skewX(-12deg) translateX(200%);
+            }
+        }
+    </style>
+
+    <!-- Script untuk Drawer Logic -->
+    <script>
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const openBtn = document.getElementById('open-drawer');
+        const closeBtn = document.getElementById('close-drawer');
+
+        function openDrawer() {
+            // Tampilkan overlay
+            overlay.classList.remove('hidden');
+            // Sedikit delay agar transisi opacity terlihat
+            setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            
+            // Geser drawer ke dalam layar
+            drawer.classList.remove('-translate-x-full');
+        }
+
+        function closeDrawer() {
+            // Sembunyikan drawer ke kiri
+            drawer.classList.add('-translate-x-full');
+            
+            // Pudar overlay lalu sembunyikan sepenuhnya
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300); // Cocokkan dengan durasi CSS transition (300ms)
+        }
+
+        // Event Listeners
+        openBtn.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer); // Tutup menu jika luar menu (overlay) di klik
+    </script>
+</body>
+</html>
