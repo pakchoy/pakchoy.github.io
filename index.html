@@ -79,31 +79,31 @@
         <div class="flex-1 overflow-y-auto py-4">
             <ul class="space-y-1">
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                    <a href="pages/top-donatur.html" class="drawer-link flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
                         <i class="fas fa-crown w-6 text-yellow-400"></i>
                         <span class="ml-3 font-medium">Top Donatur</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                    <a href="pages/jadwal-stream.html" class="drawer-link flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
                         <i class="fas fa-calendar-alt w-6 text-blue-400"></i>
                         <span class="ml-3 font-medium">Jadwal Stream</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                    <a href="pages/artikel.html" class="drawer-link flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
                         <i class="fas fa-newspaper w-6 text-green-400"></i>
                         <span class="ml-3 font-medium">Artikel / Blog</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                    <a href="pages/setup-pc.html" class="drawer-link flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
                         <i class="fas fa-info-circle w-6 text-indigo-400"></i>
                         <span class="ml-3 font-medium">Info Setup PC</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
+                    <a href="pages/merchandise.html" class="drawer-link flex items-center px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition border-l-4 border-transparent hover:border-purple-500">
                         <i class="fas fa-store w-6 text-pink-400"></i>
                         <span class="ml-3 font-medium">Merchandise</span>
                     </a>
@@ -114,7 +114,7 @@
 
     <!-- Main Content -->
     <main class="flex-grow pt-24 pb-12 px-4 flex justify-center w-full">
-        <div class="max-w-lg w-full flex flex-col items-center">
+        <div id="main-content" class="max-w-lg w-full flex flex-col items-center transition-opacity duration-300">
             
             <!-- Profile Section -->
             <div class="flex flex-col items-center text-center mb-10">
@@ -205,36 +205,101 @@
         }
     </style>
 
-    <!-- Script untuk Drawer Logic -->
+    <!-- Script untuk SPA Navigation & Drawer Logic -->
     <script>
+        // ============== DRAWER LOGIC ==============
         const drawer = document.getElementById('drawer');
         const overlay = document.getElementById('drawer-overlay');
         const openBtn = document.getElementById('open-drawer');
         const closeBtn = document.getElementById('close-drawer');
+        const mainContent = document.getElementById('main-content');
 
         function openDrawer() {
-            // Tampilkan overlay
             overlay.classList.remove('hidden');
-            // Sedikit delay agar transisi opacity terlihat
             setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            
-            // Geser drawer ke dalam layar
             drawer.classList.remove('-translate-x-full');
         }
 
         function closeDrawer() {
-            // Sembunyikan drawer ke kiri
             drawer.classList.add('-translate-x-full');
-            
-            // Pudar overlay lalu sembunyikan sepenuhnya
             overlay.classList.add('opacity-0');
-            setTimeout(() => overlay.classList.add('hidden'), 300); // Cocokkan dengan durasi CSS transition (300ms)
+            setTimeout(() => overlay.classList.add('hidden'), 300);
         }
 
-        // Event Listeners
+        // ============== SPA NAVIGATION ==============
+        const homeContent = mainContent.innerHTML;
+        let currentPage = 'home';
+
+        async function navigateTo(url, pushState = true) {
+            // Fade out
+            mainContent.style.opacity = '0';
+
+            // Fetch new content
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+
+                // Wait for fade out
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Replace content
+                mainContent.innerHTML = html;
+                mainContent.style.opacity = '1';
+
+                // Update page title based on content
+                const titleMatch = html.match(/<h2[^>]*>(.*?)<\/h2>/);
+                if (titleMatch) {
+                    document.title = titleMatch[1].replace(/<[^>]*>/g, '') + ' - Streamer Hub';
+                }
+
+                // Track current page
+                if (url.includes('top-donatur')) currentPage = 'top-donatur';
+                else if (url.includes('jadwal-stream')) currentPage = 'jadwal-stream';
+                else if (url.includes('artikel')) currentPage = 'artikel';
+                else if (url.includes('setup-pc')) currentPage = 'setup-pc';
+                else if (url.includes('merchandise')) currentPage = 'merchandise';
+                else currentPage = 'home';
+
+                // Push to browser history
+                if (pushState) {
+                    history.pushState({ url: url }, '', '#' + currentPage);
+                }
+
+            } catch (error) {
+                console.error('Navigation error:', error);
+                mainContent.style.opacity = '1';
+            }
+        }
+
+        // Intercept drawer link clicks
+        document.querySelectorAll('.drawer-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeDrawer();
+                navigateTo(this.href);
+            });
+        });
+
+        // Handle browser back button
+        window.addEventListener('popstate', function(e) {
+            if (e.state && e.state.url) {
+                navigateTo(e.state.url, false);
+            } else {
+                // Go back to home
+                mainContent.style.opacity = '0';
+                setTimeout(() => {
+                    mainContent.innerHTML = homeContent;
+                    mainContent.style.opacity = '1';
+                    document.title = 'Streamer Hub - Dukung & Bergabung!';
+                    currentPage = 'home';
+                }, 300);
+            }
+        });
+
+        // ============== EVENT LISTENERS ==============
         openBtn.addEventListener('click', openDrawer);
         closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer); // Tutup menu jika luar menu (overlay) di klik
+        overlay.addEventListener('click', closeDrawer);
     </script>
 </body>
 </html>
